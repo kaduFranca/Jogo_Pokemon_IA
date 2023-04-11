@@ -1,0 +1,162 @@
+@import url('http://fonts.cdnfonts.com/css/superbly');
+
+* {
+  font-family: 'superbly_10_01', sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+	background-color: #693f57;
+	/* background: linear-gradient(to right,#1e3549, #46354f, #5c3458); */
+	
+	color: rgb(0, 0, 0);
+	margin: 0;
+	font-family: rubik;
+}
+
+.container {
+	height: 950px;
+	background-image:url(../img/pokeville_menu.png);
+	padding: 40px;
+	margin: 0 auto;
+}
+
+h1 {
+	text-align: center;
+	font-size: 54px;
+}
+
+li {
+    list-style-type: none;
+}
+
+.pokedex {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+	grid-gap: 20px;
+	padding-inline-start: 0;
+}
+
+.card {
+	list-style: none;
+	padding: 0px;
+	text-align: center;
+	border-radius: 15px;
+	position: relative;
+}
+
+.card::after {
+	content: "";
+  display: block;
+  width: 50%;
+  height: 45%;
+  border-radius: 100%;
+  background-color: #222;
+  opacity: 0.7;
+  position: absolute;
+  top: 15%;
+  left: 25%;
+}
+
+.steel {
+	background-color: #f4f4f4;
+}
+
+.fire {
+	background-color: #3d2828;
+}
+
+.grass {
+	background-color: #0f2813;
+}
+
+.electric {
+	background-color: #8c811a;
+}
+
+.water, .ice {
+	background-color: #182931;
+}
+
+.ground {
+	background-color: #322920;
+}
+
+.rock {
+	background-color: #3b3b3a;
+}
+
+.fairy {
+	background-color: #2f2232;
+}
+
+.poison {
+	background-color: #55845f;
+}
+
+.bug {
+	background-color: #483106;
+}
+
+.dragon {
+	background-color: #3f1e1e;
+}
+
+.psychic {
+	background-color: #3f4608;
+}
+
+.flying {
+	background-color: #F5F5F5;
+}
+
+.fighting {
+	background-color: #353128;
+}
+
+.normal {
+	background-color: #222222;
+}
+
+.ghost {
+	background-color: #1d1c1c;
+}
+
+.card:hover {
+	animation: Scale 0.5s linear;
+    opacity: 1;
+}
+
+
+.card-title {
+	text-transform: capitalize;
+	margin-bottom: 0px;
+	font-size: 32px;
+	font-weight: normal;
+	position: relative;
+	z-index: 2;
+    color: white;
+}
+
+.card-subtitle {
+	margin-top: 5px;
+	color: #666;
+	font-weight: lighter;
+	position: relative;
+	z-index: 2;
+    color: white;
+}
+
+.card-image {
+	height: 180px;
+	position: relative;
+	z-index: 2;
+}
+
+@keyframes Scale {
+	20% {
+			transform: translateY(-6px);
+	}
+	
+}

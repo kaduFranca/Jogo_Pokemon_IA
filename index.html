@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <link rel="stylesheet" href="./style.css" />
+
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pokeville</title>
+
+    <script src="./index.js"></script>
+  </head>
+  <body>
+    <div class="logo">
+      <img src="./img/pokeville_logo.png" alt="logo" />
+    </div>
+    <div class="modal">
+      <div class="menu" id="menu">
+        <ul>
+          <li class="menu-title"><h2>Menu</h2></li>
+          <li class="option">
+            <img class="img-hover" id="jogar" src="./img/icone_hover.png" /><a
+              onmouseover="showComponent('jogar')"
+              onmouseout="showComponent('jogar')"
+              onclick="showComponent('bem-vindo')"
+              >JOGAR</a
+            >
+          </li>
+          <li class="option">
+            <img class="img-hover" src="./img/icone_hover.png" id="pokedex" /><a
+              onmouseover="showComponent('pokedex')"
+              onmouseout="showComponent('pokedex')"
+              href="./pokedex/pokedex.html"
+              >Pokedéx</a
+            >
+          </li>
+          <li class="option">
+            <img class="img-hover" src="./img/icone_hover.png" id="config" /><a
+              onmouseover="showComponent('config')"
+              onmouseout="showComponent('config')"
+              href="#"
+              >Config</a
+            >
+          </li>
+          <li class="option">
+            <img class="img-hover" src="./img/icone_hover.png" id="links" /><a
+              onmouseover="showComponent('links')"
+              onmouseout="showComponent('links')"
+              href=""
+              >Links úteis</a
+            >
+          </li>
+          <li class="option">
+            <img
+              class="img-hover"
+              src="./img/icone_hover.png"
+              id="creditos"
+            /><a
+              onmouseover="showComponent('creditos')"
+              onmouseout="showComponent('creditos')"
+              href="#"
+              >Créditos</a
+            >
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="modal">
+      <div class="bem-vindo" id="bem-vindo">
+        <h1 class="title-bem-vindo">Bem-vindo</h1>
+        <div class="content-bem-vindo">
+          <p>
+            "Vejo que você quer entrar para duelar no Ginásio Pokemon da
+            Univille. Somos <b>Paulo</b> e <b>Vanessa</b>, e iremos te
+            acompanhar nessa Jornada, mas primeiro poderia nos dizer seu nome?"
+          </p>
+          <div class="subimit">
+            <label for="fname"><b>Diga seu nome:</b></label>
+            <input type="text" id="playerName" />
+            <img class="icon-hover" id="res" src="./img/icone_hover.png" />
+            <a
+              onmouseover="showComponent('res')"
+              onmouseout="showComponent('res')"
+              onclick="getName('playerName')"
+              class="menu-button"
+            >
+              Responder
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
