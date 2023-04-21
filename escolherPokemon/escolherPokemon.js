@@ -2,6 +2,10 @@ const getPokemonUrl = id => `https://pokeapi.co/api/v2/pokemon/${id}`
 
 const initialPokemons = [1,4,7];
 
+const initialPokemonsV2 = initialPokemons.map(pokemon => pokemon + 1);
+
+const pokemonBag = [];
+
 const fetchPokemon = () => {
    
     const listaPokemons = []
@@ -18,9 +22,9 @@ const fetchPokemon = () => {
             const types = pokemon.types.map(typeInfo => typeInfo.type.name)
 
             accumulator += `
-            <li class="card ${types[0]}">
+            <li class="card ${types[0]}" onclick="chosePokemon(${pokemon.id})">
             <img class="card-image" alt="${pokemon.name}"src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${pokemon.id}.png" />
-            <h2 class="card-title">${pokemon.id}. ${pokemon.name}</h2>
+            <h2 class="card-title">${pokemon.name}</h2>
             <p class="card-subtitle">${types.join(' | ')}</p>
             </li>
             `
@@ -34,3 +38,10 @@ const fetchPokemon = () => {
 }
 
 fetchPokemon()
+
+function chosePokemon(pokemonId) {
+
+    if(!pokemonBag.includes(pokemonBag)) {
+        pokemonBag += pokemonId;
+    }
+}

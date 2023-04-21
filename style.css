@@ -73,6 +73,10 @@ body {
   margin-bottom: 20px;
 }
 
+.menu-button {
+  cursor:pointer;
+}
+
 
 /* Style modal */
 
