@@ -4,7 +4,7 @@ const initialPokemons = [1,4,7];
 
 const initialPokemonsV2 = initialPokemons.map(pokemon => pokemon + 1);
 
-const pokemonBag = [];
+var pokemonBag = [];
 
 const fetchPokemon = () => {
    
@@ -42,6 +42,10 @@ fetchPokemon()
 function chosePokemon(pokemonId) {
 
     if(!pokemonBag.includes(pokemonBag)) {
-        pokemonBag += pokemonId;
+        pokemonBag.push(pokemonId);
     }
+}
+
+function getPokemonBag() {
+    return pokemonBag
 }
