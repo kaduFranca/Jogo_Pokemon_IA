@@ -22,7 +22,9 @@ const fetchPokemon = () => {
       const types = pokemon.types.map((typeInfo) => typeInfo.type.name);
 
       accumulator += `
-            <li class="card ${types[0]}" onclick="chosePokemon(${pokemon.id})">
+            <li class="card ${types[0]}" onclick="chosePokemon(${
+        pokemon.id
+      })" id="${pokemon.id}">
             <img class="card-image" alt="${
               pokemon.name
             }"src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${
@@ -44,9 +46,32 @@ const fetchPokemon = () => {
 fetchPokemon();
 
 function chosePokemon(pokemonId) {
-  if (!pokemonBag.includes(pokemonBag)) {
+  if (!pokemonBag.includes(pokemonId)) {
     pokemonBag.push(pokemonId);
+
+    for (let i = 0; i < initialPokemons.length; i++) {
+      if (!pokemonBag.includes(initialPokemons[i])) {
+        let pokemonCard = document.getElementById(initialPokemons[i]);
+        pokemonCard.remove();
+      }
+    }
+    afterChose();
   }
+}
+
+function afterChose() {
+  let title = document.querySelector("#titleMenu");
+  let body = document.querySelector("#corpo");
+
+  title.innerHTML = "Ótima escolha!";
+  body.innerHTML = "Agora pode proseguir para a batatalha pokemon...";
+
+  let content = document.querySelector(".content");
+  content.appendChild(createLoad());
+
+  setInterval(() => {
+    window.location.replace("../arena/arena.html");
+  }, 4500);
 }
 
 function getPokemonBag() {
@@ -54,11 +79,24 @@ function getPokemonBag() {
 }
 
 function changeNaneMenu() {
-  let title = document.querySelector("#title");
-  console.log(title);
-}
+  let title = document.querySelector("#titleMenu");
+  playerName = localStorage.getItem("playerName");
 
-document.addEventListener("DOMContentLoaded", function () {
-  let title = document.querySelector("#title");
-  console.log(title);
-});
+  title.innerHTML += " " + playerName + "!";
+}
+changeNaneMenu();
+
+function createLoad() {
+  const h2 = document.createElement("h3");
+  let pontos = "";
+  h2.innerHTML = pontos;
+  setInterval(() => {
+    if (pontos.length >= 3) {
+      pontos = "";
+    } else {
+      pontos += ".";
+    }
+    h2.innerHTML = pontos;
+  }, 1000);
+  return h2;
+}

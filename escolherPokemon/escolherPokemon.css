@@ -25,10 +25,23 @@ body {
   top: 12vh;
 }
 
+#corpo {
+margin-top:30px ;
+}
+
 .content h1 {
   position: absolute;
   top: 10px;
   left: 15px;
+}
+
+.content h3 {
+	position: absolute;
+	font-size: 70px;
+	top: 100px;
+	left: 45%;
+	color: rgb(54, 194, 68);
+
 }
 
 .title {
@@ -54,11 +67,12 @@ li {
 }
 
 .pokedex {
-	display: grid;
+	display: flex;
+	justify-content: center;
 	grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
 	grid-gap: 20px;
 	padding-inline-start: 0;
-  width: 80%;
+  	width: 80%;
 }
 
 .card {
@@ -68,7 +82,7 @@ li {
 	border-radius: 15px;
 	position: relative;
 	cursor:pointer;
-
+	width: 300px;
 }
 
 .card::after {

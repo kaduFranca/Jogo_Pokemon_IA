@@ -5,13 +5,13 @@ let balanceados = [
 ];
 let random = balanceados[Math.floor(Math.random() * balanceados.length + 1)];
 
-const getplayerPokemonUrl = `https://pokeapi.co/api/v2/pokemon/${id}`;
-const getashPokemonUrl = `https://pokeapi.co/api/v2/pokemon/${random}`;
+const getPlayerPokemonUrl = `https://pokeapi.co/api/v2/pokemon/${id}`;
+const getAshPokemonUrl = `https://pokeapi.co/api/v2/pokemon/${random}`;
 
 let playerPokemon = {};
 let ashPokemon = {};
 
-fetch(getplayerPokemonUrl)
+fetch(getPlayerPokemonUrl)
   .then((response) => response.json())
   .then((data) => {
     playerPokemon = {
@@ -27,7 +27,7 @@ fetch(getplayerPokemonUrl)
     };
   });
 
-fetch(getashPokemonUrl)
+fetch(getAshPokemonUrl)
   .then((response) => response.json())
   .then((data) => {
     ashPokemon = {
