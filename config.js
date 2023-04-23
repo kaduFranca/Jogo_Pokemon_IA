@@ -1,6 +1,5 @@
-const pokemonsWhiteList = [{name: 'Pikachu', id: 25}];
+const pokemonsWhiteList = [{ name: "Pikachu", id: 25 }];
 
 function addPokemon(pokemonId) {
-pokemonBag.push(pokemonId);
+  pokemonBag.push(pokemonId);
 }
-
