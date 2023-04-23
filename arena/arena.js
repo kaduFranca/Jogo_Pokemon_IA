@@ -1,47 +1,71 @@
-let id = 1;
 let balanceados = [
   17, 12, 25, 27, 39, 74, 35, 41, 52, 54, 56, 58, 63, 72, 60, 50, 84, 86, 88,
   109, 90, 98, 100, 102, 109,
 ];
-let random = balanceados[Math.floor(Math.random() * balanceados.length + 1)];
+
+let id = 1;
+let random = balanceados[Math.floor(Math.random() * balanceados.length)];
 
 const getPlayerPokemonUrl = `https://pokeapi.co/api/v2/pokemon/${id}`;
 const getAshPokemonUrl = `https://pokeapi.co/api/v2/pokemon/${random}`;
 
-let playerPokemon = {};
-let ashPokemon = {};
+const PlayerPokemonUrl = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/${id}.png`
+const AshPokemonUrl = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${random}.png`
+
+let playerPokemon = {}
+let ashPokemon = {}
 
 fetch(getPlayerPokemonUrl)
   .then((response) => response.json())
   .then((data) => {
     playerPokemon = {
       id: id,
-      name: data.forms[0].name,
+      name: data.name,
       hp: data.stats[0].base_stat,
       attk: data.stats[1].base_stat,
       defense: data.stats[2].base_stat,
       specialAttk: data.stats[3].base_stat,
       specialDefense: data.stats[4].base_stat,
       speed: data.stats[5].base_stat,
+      type: data.types[0].type.name,
       sprite: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/${id}.png`,
+      moves: getmoves([data.moves[0].move.url,data.moves[1].move.url,data.moves[2].move.url,data.moves[3].move.url])
     };
-  });
+  }
+);
 
 fetch(getAshPokemonUrl)
   .then((response) => response.json())
   .then((data) => {
     ashPokemon = {
       id: random,
-      name: data.forms[0].name,
+      name: data.name,
       hp: data.stats[0].base_stat,
       attk: data.stats[1].base_stat,
       defense: data.stats[2].base_stat,
       specialAttk: data.stats[3].base_stat,
       specialDefense: data.stats[4].base_stat,
       speed: data.stats[5].base_stat,
+      type: data.types[0].type.name,
       sprite: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${random}.png`,
+      moves: getmoves([data.moves[0].move.url,data.moves[1].move.url,data.moves[2].move.url,data.moves[3].move.url])
     };
+  }
+);
+
+function getmoves(urls){
+  let moves = []
+
+  urls.forEach(url => {
+    fetch(url)
+    .then(response => response.json())
+    .then(data => {
+      moves.push({name: data.name, power: data.power, type: data.type.name})
+    })
   });
+
+  return moves
+}
 
 function choseAction() {
   const div = document.getElementById("container");
@@ -71,22 +95,23 @@ function physicalAttk(pokemon, enemy) {
   ((((2*1/5+2)*pokemon.attk*"PODER DO GOLPE"/enemy.defense)/50)+2)*stab*"WEAKNESS"*"CRITICAL"*(margin/100)
 }
 
-function specialAbility(playerPokemon, ashPokemon) {
-  
-  ((((2*50/5+2)*230*90/130)/50)+2)*1,5*2*1*1*(80/100)
-}
+// function specialAbility(playerPokemon, ashPokemon) {
+//
+//   ((((2*50/5+2)*230*90/130)/50)+2)*1,5*2*1*1*(80/100)
+// }
 
 // function useItem(playerPokemon, ashPokemon) {
 //
 // }
 
-function runAway(playerPokemon, ashPokemon) {
-  
-}
+// function runAway(playerPokemon, ashPokemon) {
+//
+// }
 
-function botTurn(playerPokemon, ashPokemon) {
-  
-}
+
+// function botTurn(playerPokemon, ashPokemon) {
+//
+// }
 
 function sametype(pokemon, enemy) {
   pokemon.type == enemy.type
