@@ -57,3 +57,42 @@ function choseAction() {
   console.log(playerPokemon);
   console.log(ashPokemon);
 }
+
+function physicalAttk(pokemon, enemy) {
+  let stab = 1
+  let weakness = weaknessresistence()
+  let margin = Math.floor(Math.random() * 101)
+  
+  
+  if(sametype(pokemon, enemy)){
+    stab = 1,5
+  }
+  
+  ((((2*1/5+2)*pokemon.attk*"PODER DO GOLPE"/enemy.defense)/50)+2)*stab*"WEAKNESS"*"CRITICAL"*(margin/100)
+}
+
+function specialAbility(playerPokemon, ashPokemon) {
+  
+  ((((2*50/5+2)*230*90/130)/50)+2)*1,5*2*1*1*(80/100)
+}
+
+// function useItem(playerPokemon, ashPokemon) {
+//
+// }
+
+function runAway(playerPokemon, ashPokemon) {
+  
+}
+
+function botTurn(playerPokemon, ashPokemon) {
+  
+}
+
+function sametype(pokemon, enemy) {
+  pokemon.type == enemy.type
+}
+
+function weaknessresistence(pokemon, enemy){
+
+}
+
