@@ -1,12 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-
+    <link rel="stylesheet" href="./arena.css" />
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="arena.js"></script>
-    
 
     <title>Arena</title>
   </head>
@@ -14,17 +13,11 @@
     <div class="container" id="container">
       <ul data-js="pokedex" class="pokedex"></ul>
     </div>
-    
   </body>
-
-
-
-
-
-
-
-
-
-
-  <button onclick="choseAction();">Criar Imagem</button>
 </html>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    choseAction();
+  });
+</script>

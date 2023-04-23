@@ -4,8 +4,6 @@ const initialPokemons = [1, 4, 7];
 
 const initialPokemonsV2 = initialPokemons.map((pokemon) => pokemon + 1);
 
-var pokemonBag = [];
-
 const fetchPokemon = () => {
   const listaPokemons = [];
 
@@ -46,8 +44,11 @@ const fetchPokemon = () => {
 fetchPokemon();
 
 function chosePokemon(pokemonId) {
+  let pokemonBag = [];
+
   if (!pokemonBag.includes(pokemonId)) {
     pokemonBag.push(pokemonId);
+    localStorage.setItem("pokemonBag", pokemonBag);
 
     for (let i = 0; i < initialPokemons.length; i++) {
       if (!pokemonBag.includes(initialPokemons[i])) {
