@@ -14,7 +14,7 @@ const AshPokemonUrl = `https://raw.githubusercontent.com/PokeAPI/sprites/master/
 playerPokemon = {};
 ashPokemon = {};
 
-function setup() {
+function setUp() {
   Promise.all([getPlayerPokemon(), getAshPokemon()]).then(
     ([playerPokemon, ashPokemon]) => {
       playerPokemon = playerPokemon;
@@ -109,7 +109,10 @@ function loadSprite() {
 
 function physicalAttk(pokemon, enemy) {
   let stab = 1;
-  let weakness = weaknessresistence();
+  let PokeType = pokemon.type;
+  let enemyType = enemy.type;
+
+  let attkTypeEfficiency = weaknessResistence(PokeType, enemyType);
   let margin = Math.floor(Math.random() * 101);
 
   if (sametype(pokemon, enemy)) {
@@ -119,7 +122,7 @@ function physicalAttk(pokemon, enemy) {
   ((((2 * 1) / 5 + 2) * pokemon.attk * "PODER DO GOLPE") / enemy.defense / 50 +
     2) *
     stab *
-    "WEAKNESS" *
+    attkTypeEfficiency *
     "CRITICAL" *
     (margin / 100);
 }
@@ -137,355 +140,33 @@ function runAway(playerPokemon, ashPokemon) {}
 
 function botTurn(playerPokemon, ashPokemon) {}
 
-function sametype(pokemon, enemy) {
+function sameType(pokemon, enemy) {
   pokemon.type == enemy.type;
 }
 
-function weaknessresistence(pokemonATACANDO, pokemonDEFENDENDO) {
-  const weaknessTable = {
-    normal: {
-      Grass: 1.0,
-      Water: 1.0,
-      Normal: 1.0,
-      Psychic: 1.0,
-      Fire: 1.0,
-      Bug: 1.0,
-      Ground: 1.0,
-      eletric: 1.0,
-      Flying: 1.0,
-      Rock: 0.5,
-      Dark: 1.0,
-      Ice: 1.0,
-      Poison: 1.0,
-      Steel: 0.5,
-      Fighting: 1.0,
-      Fairy: 1.0,
-      Ghost: 0.0,
-    },
-    fighting: {
-      Grass: 1.0,
-      Water: 1.0,
-      Normal: 2.0,
-      Psychic: 0.5,
-      Fire: 1.0,
-      Bug: 0.5,
-      Ground: 1.0,
-      eletric: 1.0,
-      Flying: 0.5,
-      Rock: 2.0,
-      Dark: 2.0,
-      Ice: 2.0,
-      Poison: 0.5,
-      Steel: 2.0,
-      Fighting: 1.0,
-      Fairy: 0.5,
-      Ghost: 0.0,
-    },
-    flying: {
-      Grass: 2.0,
-      Water: 1.0,
-      Normal: 1.0,
-      Psychic: 1.0,
-      Fire: 1.0,
-      Bug: 2.0,
-      Ground: 1.0,
-      eletric: 0.5,
-      Flying: 1.0,
-      Rock: 0.5,
-      Dark: 1.0,
-      Ice: 1.0,
-      Poison: 1.0,
-      Steel: 0.5,
-      Fighting: 2.0,
-      Fairy: 1.0,
-      Ghost: 1.0,
-    },
-    poison: {
-      Grass: 2.0,
-      Water: 1.0,
-      Normal: 1.0,
-      Psychic: 1.0,
-      Fire: 1.0,
-      Bug: 1.0,
-      Ground: 0.5,
-      eletric: 1.0,
-      Flying: 1.0,
-      Rock: 0.5,
-      Dark: 1.0,
-      Ice: 1.0,
-      Poison: 0.5,
-      Steel: 0.0,
-      Fighting: 1.0,
-      Fairy: 2.0,
-      Ghost: 0.5,
-    },
-    ground: {
-      Grass: 0.5,
-      Water: 1.0,
-      Normal: 1.0,
-      Psychic: 1.0,
-      Fire: 2.0,
-      Bug: 0.5,
-      Ground: 1.0,
-      eletric: 2.0,
-      Flying: 0.0,
-      Rock: 2.0,
-      Dark: 1.0,
-      Ice: 1.0,
-      Poison: 2.0,
-      Steel: 2.0,
-      Fighting: 1.0,
-      Fairy: 1.0,
-      Ghost: 1.0,
-    },
-    rock: {
-      Grass: 1.0,
-      Water: 1.0,
-      Normal: 1.0,
-      Psychic: 1.0,
-      Fire: 2.0,
-      Bug: 2.0,
-      Ground: 0.5,
-      eletric: 1.0,
-      Flying: 2.0,
-      Rock: 1.0,
-      Dark: 1.0,
-      Ice: 2.0,
-      Poison: 1.0,
-      Steel: 0.5,
-      Fighting: 0.5,
-      Fairy: 1.0,
-      Ghost: 1.0,
-    },
-    bug: {
-      Grass: 2.0,
-      Water: 1.0,
-      Normal: 1.0,
-      Psychic: 2.0,
-      Fire: 0.5,
-      Bug: 1.0,
-      Ground: 1.0,
-      eletric: 1.0,
-      Flying: 0.5,
-      Rock: 1.0,
-      Dark: 2.0,
-      Ice: 1.0,
-      Poison: 0.5,
-      Steel: 0.5,
-      Fighting: 0.5,
-      Fairy: 0.5,
-      Ghost: 0.5,
-    },
-    ghost: {
-      Grass: 1.0,
-      Water: 1.0,
-      Normal: 0.0,
-      Psychic: 2.0,
-      Fire: 1.0,
-      Bug: 1.0,
-      Ground: 1.0,
-      eletric: 1.0,
-      Flying: 1.0,
-      Rock: 1.0,
-      Dark: 0.5,
-      Ice: 1.0,
-      Poison: 1.0,
-      Steel: 1.0,
-      Fighting: 1.0,
-      Fairy: 1.0,
-      Ghost: 2.0,
-    },
-    steel: {
-      Grass: 1.0,
-      Water: 0.5,
-      Normal: 1.0,
-      Psychic: 1.0,
-      Fire: 0.5,
-      Bug: 1.0,
-      Ground: 1.0,
-      eletric: 0.5,
-      Flying: 1.0,
-      Rock: 2.0,
-      Dark: 1.0,
-      Ice: 2.0,
-      Poison: 1.0,
-      Steel: 0.5,
-      Fighting: 1.0,
-      Fairy: 2.0,
-      Ghost: 1.0,
-    },
-    fire: {
-      Grass: 2.0,
-      Water: 0.5,
-      Normal: 1.0,
-      Psychic: 1.0,
-      Fire: 0.5,
-      Bug: 2.0,
-      Ground: 1.0,
-      eletric: 1.0,
-      Flying: 1.0,
-      Rock: 0.5,
-      Dark: 1.0,
-      Ice: 2.0,
-      Poison: 1.0,
-      Steel: 2.0,
-      Fighting: 1.0,
-      Fairy: 1.0,
-      Ghost: 1.0,
-    },
-    water: {
-      Grass: 0.5,
-      Water: 0.5,
-      Normal: 1.0,
-      Psychic: 1.0,
-      Fire: 2.0,
-      Bug: 1.0,
-      Ground: 2.0,
-      eletric: 1.0,
-      Flying: 1.0,
-      Rock: 2.0,
-      Dark: 1.0,
-      Ice: 1.0,
-      Poison: 1.0,
-      Steel: 1.0,
-      Fighting: 1.0,
-      Fairy: 1.0,
-      Ghost: 1.0,
-    },
-    grass: {
-      Grass: 0.5,
-      Water: 2.0,
-      Normal: 1.0,
-      Psychic: 1.0,
-      Fire: 0.5,
-      Bug: 0.5,
-      Ground: 2.0,
-      eletric: 1.0,
-      Flying: 0.5,
-      Rock: 2.0,
-      Dark: 1.0,
-      Ice: 1.0,
-      Poison: 0.5,
-      Steel: 0.5,
-      Fighting: 1.0,
-      Fairy: 1.0,
-      Ghost: 1.0,
-    },
-    eletric: {
-      Grass: 0.5,
-      Water: 2.0,
-      Normal: 1.0,
-      Psychic: 1.0,
-      Fire: 1.0,
-      Bug: 1.0,
-      Ground: 0.0,
-      eletric: 0.5,
-      Flying: 2.0,
-      Rock: 1.0,
-      Dark: 1.0,
-      Ice: 1.0,
-      Poison: 1.0,
-      Steel: 1.0,
-      Fighting: 1.0,
-      Fairy: 1.0,
-      Ghost: 1.0,
-    },
-    psychic: {
-      Grass: 1.0,
-      Water: 1.0,
-      Normal: 1.0,
-      Psychic: 0.5,
-      Fire: 1.0,
-      Bug: 1.0,
-      Ground: 1.0,
-      eletric: 1.0,
-      Flying: 1.0,
-      Rock: 1.0,
-      Dark: 0.0,
-      Ice: 1.0,
-      Poison: 2.0,
-      Steel: 0.5,
-      Fighting: 2.0,
-      Fairy: 1.0,
-      Ghost: 1.0,
-    },
-    ice: {
-      Grass: 2.0,
-      Water: 0.5,
-      Normal: 1.0,
-      Psychic: 1.0,
-      Fire: 0.5,
-      Bug: 1.0,
-      Ground: 2.0,
-      eletric: 1.0,
-      Flying: 2.0,
-      Rock: 1.0,
-      Dark: 1.0,
-      Ice: 0.5,
-      Poison: 1.0,
-      Steel: 0.5,
-      Fighting: 1.0,
-      Fairy: 1.0,
-      Ghost: 1.0,
-    },
-    dragon: {
-      Grass: 1.0,
-      Water: 1.0,
-      Normal: 1.0,
-      Psychic: 1.0,
-      Fire: 1.0,
-      Bug: 1.0,
-      Ground: 1.0,
-      eletric: 1.0,
-      Flying: 1.0,
-      Rock: 1.0,
-      Dark: 1.0,
-      Ice: 1.0,
-      Poison: 1.0,
-      Steel: 0.5,
-      Fighting: 1.0,
-      Fairy: 0.0,
-      Ghost: 1.0,
-    },
-    dark: {
-      Grass: 1.0,
-      Water: 1.0,
-      Normal: 1.0,
-      Psychic: 2.0,
-      Fire: 1.0,
-      Bug: 1.0,
-      Ground: 1.0,
-      eletric: 1.0,
-      Flying: 1.0,
-      Rock: 1.0,
-      Dark: 0.5,
-      Ice: 1.0,
-      Poison: 1.0,
-      Steel: 1.0,
-      Fighting: 0.5,
-      Fairy: 0.5,
-      Ghost: 2.0,
-    },
-    fairy: {
-      Grass: 1.0,
-      Water: 1.0,
-      Normal: 1.0,
-      Psychic: 1.0,
-      Fire: 1.0,
-      Bug: 1.0,
-      Ground: 1.0,
-      eletric: 1.0,
-      Flying: 1.0,
-      Rock: 1.0,
-      Dark: 2.0,
-      Ice: 1.0,
-      Poison: 0.5,
-      Steel: 0.5,
-      Fighting: 2.0,
-      Fairy: 1.0,
-      Ghost: 1.0,
-    },
+function weaknessResistence(attackerType, defenderType) {
+  const attackerUrl = `https://pokeapi.co/api/v2/type/${attackerType}`;
+  let attkCoefficient = undefined;
+  let containType = (list) => {
+    for (let i = 0; i < list.length; i++) {
+      if (list[i].name === defenderType) {
+        return true;
+      }
+    }
+    return false;
   };
-  const weakness = weaknessTable[pokemonATACANDO][pokemonDEFENDENDO];
-  return weakness !== undefined ? weakness : 1;
+
+  fetch(attackerUrl)
+    .then((response) => response.json())
+    .then((data) => {
+      if (containType(data.damage_relations.no_damage_to)) {
+        attkCoefficient = 0;
+      } else if (containType(data.damage_relations.half_damage_to)) {
+        attkCoefficient = 0.5;
+      } else if (containType(data.damage_relations.double_damage_to)) {
+        attkCoefficient = 2;
+      }
+    });
+
+  return attkCoefficient !== undefined ? attkCoefficient : 1;
 }
