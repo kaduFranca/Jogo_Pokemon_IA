@@ -10,6 +10,8 @@ const getAshPokemonUrl = `https://pokeapi.co/api/v2/pokemon/${random}`;
 
 const PlayerPokemonUrl = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/${id}.png`;
 const AshPokemonUrl = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${random}.png`;
+const PlayerGifPokemonUrl = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/back/${id}.gif`
+const AshGifPokemonUrl = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/${random}.gif`
 
 playerPokemon = {};
 ashPokemon = {};
@@ -95,13 +97,17 @@ function getmoves(urls) {
 function loadSprite() {
   const div = document.getElementById("container");
 
-  var imgNew = document.createElement("img");
-  imgNew.src = PlayerPokemonUrl;
-  var imgNew2 = document.createElement("img");
-  imgNew2.src = AshPokemonUrl;
+  var playerImg = document.createElement("img");
+  playerImg.src = PlayerGifPokemonUrl;
+  playerImg.classList.add("playerImg")
 
-  div.appendChild(imgNew);
-  div.appendChild(imgNew2);
+  var ashImg = document.createElement("img");
+  ashImg.src = AshGifPokemonUrl;
+  ashImg.classList.add("ashImg")
+
+
+  div.appendChild(playerImg);
+  div.appendChild(ashImg);
 
   console.log(playerPokemon);
   console.log(ashPokemon);
