@@ -8,9 +8,12 @@ let random = balanceados[Math.floor(Math.random() * balanceados.length)];
 const getPlayerPokemonUrl = `https://pokeapi.co/api/v2/pokemon/${id}`;
 const getAshPokemonUrl = `https://pokeapi.co/api/v2/pokemon/${random}`;
 
-const PlayerPokemonUrl = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/${id}.png`;
-const AshPokemonUrl = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${random}.png`;
+const frontPlayerPokemonUrl = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`;
+const backPlayerPokemonUrl = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/${id}.png`;
 const PlayerGifPokemonUrl = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/back/${id}.gif`
+
+const frontAshPokemonUrl = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${random}.png`;
+const backAshPokemonUrl = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/${random}.png`;
 const AshGifPokemonUrl = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/${random}.gif`
 
 playerPokemon = {};
@@ -40,7 +43,7 @@ async function getPlayerPokemon() {
         specialDefense: data.stats[4].base_stat,
         speed: data.stats[5].base_stat,
         type: data.types[0].type.name,
-        sprite: PlayerPokemonUrl,
+        sprite: backPlayerPokemonUrl,
         moves: getMoves([
           data.moves[0].move.url,
           data.moves[1].move.url,
@@ -65,7 +68,7 @@ async function getAshPokemon() {
         specialDefense: data.stats[4].base_stat,
         speed: data.stats[5].base_stat,
         type: data.types[0].type.name,
-        sprite: AshPokemonUrl,
+        sprite: frontAshPokemonUrl,
         moves: getMoves([
           data.moves[0].move.url,
           data.moves[1].move.url,
@@ -175,7 +178,7 @@ function runAway(playerPokemon = 1) {
 
     // 5. Define um tempo limite de 3 segundos antes de redirecionar o usuário para a página especificada
     setTimeout(() => {
-      window.location.href = "../pokedex/pokedex.html";
+      window.location.href = "../index.html";
     }, 3000);
   });
 }
