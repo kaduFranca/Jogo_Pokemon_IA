@@ -1,4 +1,4 @@
-let id = localStorage.getItem("pokemonSelected") ?? 1;
+let id = parseInt(localStorage.getItem("pokemonSelected")) ?? 1;
 let balanceados = [
   17, 12, 25, 27, 39, 74, 35, 41, 52, 54, 56, 58, 63, 72, 60, 50, 84, 86, 88,
   109, 90, 98, 100, 129
@@ -128,7 +128,7 @@ function physicalAttk(pokemon, enemy) {
   }
   
   damage = Math.floor(((((2 * 1 / 5 + 2) * pokemon.attk * 1) / enemy.defense / 50) + 2) * stab * attkTypeEfficiency * 1 * (margin / 100));
-  console.log(damage)
+  enemy.hp -= Specialdamage
 }
 
 function specialAbility(pokemon, enemy, move) {
@@ -142,7 +142,7 @@ function specialAbility(pokemon, enemy, move) {
   }
   
   Specialdamage = Math.floor(((((2 * 1 / 5 + 2) * pokemon.specialAttk * move.power) / enemy.specialDefense / 50) + 2) * stab * attkTypeEfficiency * 1 * (margin / 100));
-  console.log(Specialdamage)
+  enemy.hp -= Specialdamage
 }
 
 // function useItem(playerPokemon, ashPokemon) {
