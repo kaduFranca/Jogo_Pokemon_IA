@@ -1,7 +1,7 @@
-let id = 1;
+let id = localStorage.getItem("pokemonSelected") ?? 1;
 let balanceados = [
   17, 12, 25, 27, 39, 74, 35, 41, 52, 54, 56, 58, 63, 72, 60, 50, 84, 86, 88,
-  109, 90, 98, 100, 102, 109,
+  109, 90, 98, 100, 129
 ];
 let random = balanceados[Math.floor(Math.random() * balanceados.length)];
 
@@ -41,7 +41,7 @@ async function getPlayerPokemon() {
         speed: data.stats[5].base_stat,
         type: data.types[0].type.name,
         sprite: PlayerPokemonUrl,
-        moves: getmoves([
+        moves: getMoves([
           data.moves[0].move.url,
           data.moves[1].move.url,
           data.moves[2].move.url,
@@ -66,7 +66,7 @@ async function getAshPokemon() {
         speed: data.stats[5].base_stat,
         type: data.types[0].type.name,
         sprite: AshPokemonUrl,
-        moves: getmoves([
+        moves: getMoves([
           data.moves[0].move.url,
           data.moves[1].move.url,
           data.moves[2].move.url,
@@ -76,7 +76,7 @@ async function getAshPokemon() {
     });
 }
 
-function getmoves(urls) {
+function getMoves(urls) {
   let moves = [];
   
   urls.forEach((url) => {

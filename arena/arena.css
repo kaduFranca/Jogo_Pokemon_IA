@@ -33,7 +33,18 @@ html, body {
 
 .hud {
   position: absolute;
-  width: 35vw;
-  top: 83vh;
-  right: 26vw;
+  width: 30vw;
+  top: 89vh;
+  right: 30vw;
+}
+
+.info {
+  transform: scaleX(1.2);
+  transform: scaleY(0.6);
+  width: 18vw;
+}
+
+.player {
+  position: absolute;
+  top: ;
 }

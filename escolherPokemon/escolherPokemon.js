@@ -49,6 +49,7 @@ function chosePokemon(pokemonId) {
   if (!pokemonBag.includes(pokemonId)) {
     pokemonBag.push(pokemonId);
     localStorage.setItem("pokemonBag", pokemonBag);
+    localStorage.setItem("pokemonSelected", pokemonId)
 
     for (let i = 0; i < initialPokemons.length; i++) {
       if (!pokemonBag.includes(initialPokemons[i])) {
@@ -65,7 +66,7 @@ function afterChose() {
   let body = document.querySelector("#corpo");
 
   title.innerHTML = "Ótima escolha!";
-  body.innerHTML = "Agora pode proseguir para a batatalha pokemon...";
+  body.innerHTML = "Agora pode proseguir para a batalha pokemon...";
 
   let content = document.querySelector(".content");
   content.appendChild(createLoad());
