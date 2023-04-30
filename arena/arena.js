@@ -3,7 +3,7 @@ let balanceados = [
   17, 12, 25, 27, 39, 74, 35, 41, 52, 54, 56, 58, 63, 72, 60, 50, 84, 86, 88,
   109, 90, 98, 100, 102, 109,
 ];
-let random = balanceados[Math.floor(Math.random() * balanceados.length + 1)];
+let random = balanceados[Math.floor(Math.random() * balanceados.length)];
 
 const getPlayerPokemonUrl = `https://pokeapi.co/api/v2/pokemon/${id}`;
 const getAshPokemonUrl = `https://pokeapi.co/api/v2/pokemon/${random}`;
@@ -78,7 +78,7 @@ async function getAshPokemon() {
 
 function getmoves(urls) {
   let moves = [];
-
+  
   urls.forEach((url) => {
     fetch(url)
       .then((response) => response.json())
@@ -90,25 +90,24 @@ function getmoves(urls) {
         });
       });
   });
-
   return moves;
 }
 
 function loadSprite() {
   const div = document.getElementById("container");
-
+  
   var playerImg = document.createElement("img");
   playerImg.src = PlayerGifPokemonUrl;
   playerImg.classList.add("playerImg")
-
+  
   var ashImg = document.createElement("img");
   ashImg.src = AshGifPokemonUrl;
   ashImg.classList.add("ashImg")
-
-
+  
+  
   div.appendChild(playerImg);
   div.appendChild(ashImg);
-
+  
   console.log(playerPokemon);
   console.log(ashPokemon);
 }
@@ -117,25 +116,30 @@ function physicalAttk(pokemon, enemy) {
   let stab = 1;
   let PokeType = pokemon.type;
   let enemyType = enemy.type;
-
+  
   let attkTypeEfficiency = weaknessResistence(PokeType, enemyType);
   let margin = Math.floor(Math.random() * 101);
-
-  if (sametype(pokemon, enemy)) {
+  
+  if (sameType(pokemon, enemy)) {
     (stab = 1), 5;
   }
-
-  ((((2 * 1) / 5 + 2) * pokemon.attk * "PODER DO GOLPE") / enemy.defense / 50 +
-    2) *
-    stab *
-    attkTypeEfficiency *
-    "CRITICAL" *
-    (margin / 100);
+  
+  damage = Math.floor(((((2 * 1 / 5 + 2) * pokemon.attk * 1) / enemy.defense / 50) + 2) * stab * attkTypeEfficiency * 1 * (margin / 100));
+  console.log(damage)
 }
 
-function specialAbility(playerPokemon, ashPokemon) {
-  ((((2 * 50) / 5 + 2) * 230 * 90) / 130 / 50 + 2) * 1,
-    5 * 2 * 1 * 1 * (80 / 100);
+function specialAbility(pokemon, enemy, move) {
+  let stab = 1;
+  let enemyType = enemy.type;
+  let attkTypeEfficiency = weaknessResistence(move.type, enemyType);
+  let margin = Math.floor(Math.random() * 101);
+  
+  if (sameType(move.type, enemy)) {
+    (stab = 1), 5;
+  }
+  
+  Specialdamage = Math.floor(((((2 * 1 / 5 + 2) * pokemon.specialAttk * move.power) / enemy.specialDefense / 50) + 2) * stab * attkTypeEfficiency * 1 * (margin / 100));
+  console.log(Specialdamage)
 }
 
 // function useItem(playerPokemon, ashPokemon) {
@@ -161,7 +165,7 @@ function weaknessResistence(attackerType, defenderType) {
     }
     return false;
   };
-
+  
   fetch(attackerUrl)
     .then((response) => response.json())
     .then((data) => {
@@ -173,6 +177,5 @@ function weaknessResistence(attackerType, defenderType) {
         attkCoefficient = 2;
       }
     });
-
   return attkCoefficient !== undefined ? attkCoefficient : 1;
 }
