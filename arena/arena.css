@@ -46,5 +46,63 @@ html, body {
 
 .player {
   position: absolute;
-  top: ;
+  top: 0pt;
+}
+
+.run-away {
+  position: absolute;
+  left: 0;
+  animation: run-away-animation 2s linear;
+}
+
+@keyframes run-away-animation {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.smoke {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  animation: smoke-animation 2s linear;
+}
+
+@keyframes smoke-animation {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+.smoke, .run-away {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.smoke {
+  animation: smoke-animation 2s linear;
+}
+
+@keyframes smoke-animation {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
 }
