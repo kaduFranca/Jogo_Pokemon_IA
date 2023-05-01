@@ -102,6 +102,7 @@ function loadSprite() {
   var playerImg = document.createElement("img");
   playerImg.src = PlayerGifPokemonUrl;
   playerImg.classList.add("playerImg")
+  playerImg.setAttribute("id", "playerImg");
   
   var ashImg = document.createElement("img");
   ashImg.src = AshGifPokemonUrl;
@@ -149,37 +150,14 @@ function specialAbility(pokemon, enemy, move) {
 //
 // }
 
-function runAway(playerPokemon = 1) {
-  var id = playerPokemon;
-
-  document.getElementById("container").innerHTML = "";
-  fetch('https://pokeapi.co/api/v2/pokemon/1')
-  .then(response => response.json())
-  .then(data => {
-    // 1. Cria um elemento de imagem e define a imagem de fuga do Pokémon como sua fonte
-    const img = document.createElement('img');
-    img.src = data.sprites.front_default;
-
-    // 2. Define a classe CSS 'run-away' no elemento de imagem do Pokémon
-    img.classList.add('run-away');
-
-    // 3. Adiciona o elemento de imagem da fumaça antes do elemento de imagem do Pokémon
-    const smoke = document.createElement('img');
-    smoke.src = 'https://64.media.tumblr.com/c80381b932df793b0974a741f6282e25/tumblr_mk3eqnxriT1qko4x4o1_500.gifv';
-    smoke.classList.add('smoke');
-    setTimeout(() => {
-      document.body.appendChild(smoke);
-    }, 500);
-
-    // 4. Adiciona o elemento de imagem do Pokémon ao corpo do documento após um atraso de 1 segundo
-    setTimeout(() => {
-      document.body.appendChild(img);
-    }, 1000);
-
-    // 5. Define um tempo limite de 3 segundos antes de redirecionar o usuário para a página especificada
-    setTimeout(() => {
-      window.location.href = "../index.html";
-    }, 3000);
+function runAway() {
+  var playerImg = document.getElementById("playerImg");
+  playerImg.src = frontPlayerPokemonUrl;
+  playerImg.style.position = "absolute";
+  playerImg.style.left = "1";
+  playerImg.style.animation = "runAwayAnimation 2s linear forwards";
+  playerImg.addEventListener("animationend", function() {
+    window.location.href = "../index.html";
   });
 }
 
