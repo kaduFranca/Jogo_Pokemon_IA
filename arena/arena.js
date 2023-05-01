@@ -10,11 +10,12 @@ const getAshPokemonUrl = `https://pokeapi.co/api/v2/pokemon/${random}`;
 
 const frontPlayerPokemonUrl = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`;
 const backPlayerPokemonUrl = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/${id}.png`;
-const PlayerGifPokemonUrl = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/back/${id}.gif`
+const frontPlayerGifPokemonUrl = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/${id}.gif`;
+const PlayerGifPokemonUrl = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/back/${id}.gif`;
 
 const frontAshPokemonUrl = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${random}.png`;
 const backAshPokemonUrl = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/${random}.png`;
-const AshGifPokemonUrl = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/${random}.gif`
+const AshGifPokemonUrl = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/${random}.gif`;
 
 playerPokemon = {};
 ashPokemon = {};
@@ -36,6 +37,7 @@ async function getPlayerPokemon() {
       playerPokemon = {
         id: id,
         name: data.name,
+        hp_base: data.stats[0].base_stat,
         hp: data.stats[0].base_stat,
         attk: data.stats[1].base_stat,
         defense: data.stats[2].base_stat,
@@ -61,6 +63,7 @@ async function getAshPokemon() {
       ashPokemon = {
         id: random,
         name: data.name,
+        hp_base: data.stats[0].base_stat,
         hp: data.stats[0].base_stat,
         attk: data.stats[1].base_stat,
         defense: data.stats[2].base_stat,
@@ -90,6 +93,7 @@ function getMoves(urls) {
           name: data.name,
           power: data.power,
           type: data.type.name,
+          crit: data.meta.crit_rate
         });
       });
   });
@@ -120,15 +124,19 @@ function physicalAttk(pokemon, enemy) {
   let stab = 1;
   let PokeType = pokemon.type;
   let enemyType = enemy.type;
-  
   let attkTypeEfficiency = weaknessResistence(PokeType, enemyType);
   let margin = Math.floor(Math.random() * 101);
+  let critical = 1
   
-  if (sameType(pokemon, enemy)) {
-    (stab = 1), 5;
+  if (Math.floor(Math.random() * 101 <= move.crit)) {
+    critical = 1.5
   }
   
-  damage = Math.floor(((((2 * 1 / 5 + 2) * pokemon.attk * 1) / enemy.defense / 50) + 2) * stab * attkTypeEfficiency * 1 * (margin / 100));
+  if (sameType(pokemon, enemy)) {
+    stab = 1.5;
+  }
+  
+  damage = Math.floor(((((2 * 1 / 5 + 2) * pokemon.attk * 1) / enemy.defense / 50) + 2) * stab * attkTypeEfficiency * critical * (margin / 100));
   enemy.hp -= Specialdamage
 }
 
@@ -137,13 +145,19 @@ function specialAbility(pokemon, enemy, move) {
   let enemyType = enemy.type;
   let attkTypeEfficiency = weaknessResistence(move.type, enemyType);
   let margin = Math.floor(Math.random() * 101);
-  
-  if (sameType(move.type, enemy)) {
-    (stab = 1), 5;
+  let critical = 1
+
+  if (Math.floor(Math.random() * 101 <= move.crit)) {
+    critical = 1.5
   }
   
-  Specialdamage = Math.floor(((((2 * 1 / 5 + 2) * pokemon.specialAttk * move.power) / enemy.specialDefense / 50) + 2) * stab * attkTypeEfficiency * 1 * (margin / 100));
+  if (sameType(move.type, enemy)) {
+    stab = 1.5;
+  }
+  
+  Specialdamage = Math.floor(((((2 * 1 / 5 + 2) * pokemon.specialAttk * move.power) / enemy.specialDefense / 50) + 2) * stab * attkTypeEfficiency * critical * (margin / 100));
   enemy.hp -= Specialdamage
+  console.log(Specialdamage)
 }
 
 // function useItem(playerPokemon, ashPokemon) {
@@ -152,10 +166,10 @@ function specialAbility(pokemon, enemy, move) {
 
 function runAway() {
   var playerImg = document.getElementById("playerImg");
-  playerImg.src = frontPlayerPokemonUrl;
+  playerImg.src = frontPlayerGifPokemonUrl;
   playerImg.style.position = "absolute";
   playerImg.style.left = "1";
-  playerImg.style.animation = "runAwayAnimation 2s linear forwards";
+  playerImg.style.animation = "runAwayAnimation 1s linear forwards";
   playerImg.addEventListener("animationend", function() {
     window.location.href = "../index.html";
   });
