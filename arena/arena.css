@@ -87,11 +87,19 @@ html, body {
 
 .playerInfo {
   position: absolute;
-  top: 300px;
+  top: 35vh;
   width: 18vw;
+  left: 3vw;
 }
 
 .enemyInfo {
   position: absolute;
   width: 18vw;
+  right: 3vw;
+  top: 26vh;
+}
+
+.textHp {
+  display: inline;
+  margin-left: 5px;
 }

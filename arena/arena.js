@@ -134,8 +134,8 @@ function refreshModalInfo() {
   enemyHP.id = `${ashPokemon.name}HP`
   let playerHP = document.querySelector("#playerHP")
   playerHP.id = `${playerPokemon.name}HP`
-  setElement(`#${enemyHP.id}`, ashPokemon.hp)
-  setElement(`#${playerHP.id}`, playerPokemon.hp)
+  setElement(`#${enemyHP.id}`, `<p class="textHp">${ashPokemon.hp}</p>`)
+  setElement(`#${playerHP.id}`, `<p class="textHp">${playerPokemon.hp}</p>`)
 }
 
 function refreshHP(pokemon) {
@@ -147,6 +147,9 @@ function refreshHP(pokemon) {
     let hpDiv = document.querySelector(`#${pokemon.name}HP`)
     hpDiv.innerHTML = vidaAtual;
     hpDiv.style.width = novaVida + "%"
+    if (novaVida < 15) {
+      hpDiv.style.backgroundColor = "red"
+    }
   }
 }
 
