@@ -1,4 +1,5 @@
 let id = parseInt(localStorage.getItem("pokemonSelected")) ?? 1;
+let playerName = localStorage.getItem("playerName");
 let balanceados = [
   17, 12, 25, 27, 39, 74, 41, 52, 54, 56, 58, 63, 72, 60, 50, 84, 86, 88,
   109, 90, 98, 100, 129
@@ -136,6 +137,55 @@ function refreshModalInfo() {
   playerHP.id = `${playerPokemon.name}HP`
   setElement(`#${enemyHP.id}`, `<p class="textHp">${ashPokemon.hp}</p>`)
   setElement(`#${playerHP.id}`, `<p class="textHp">${playerPokemon.hp}</p>`)
+
+  loadOptions()
+}
+
+function loadOptions() {
+  setElement(".hudMenu",
+  `<p onclick="choseOption('physicalAttk')" id="physicalAttk">Ataque normal</p>
+  <p onclick="choseOption('specialAbility')" id="specialAbility">Ataque Especial</p>
+  <p onclick="choseOption('runAway')" id="runAway">Fugir</p>`)
+
+  var hudMenu = document.querySelector(".hudMenu")
+  hudMenu.style.fontSize = "4vh"
+}
+
+
+function choseOption(id) {
+  if(id === "physicalAttk") {
+    console.log("UEPA")
+    physicalAttk(playerPokemon, ashPokemon)
+  } else if(id === "specialAbility") {
+    showMoves(playerPokemon)
+  } else {
+    runAway()
+  }
+}
+
+function showMoves(pokemon) {
+  setElement(".hudMenu",
+  `<p onclick="specialAbility(playerPokemon, ashPokemon, playerPokemon.moves[0])">${pokemon.moves[0].name} (${pokemon.moves[0].type})</p>
+  <p onclick="specialAbility(playerPokemon, ashPokemon, playerPokemon.moves[1])">${pokemon.moves[1].name} (${pokemon.moves[1].type})</p>
+  <p onclick="specialAbility(playerPokemon, ashPokemon, playerPokemon.moves[2])">${pokemon.moves[2].name} (${pokemon.moves[2].type})</p>
+  <p onclick="specialAbility(playerPokemon, ashPokemon, playerPokemon.moves[3])">${pokemon.moves[3].name} (${pokemon.moves[3].type})</p>`
+  )
+
+  var hudMenu = document.querySelector(".hudMenu")
+  hudMenu.style.fontSize = "3vh"
+}
+
+function showMessage(pokemonAttacker, PokemonDefender, move) {
+  var content = `<h3>${pokemonAttacker.name}(${playerName}) atacou ${PokemonDefender.name} com ${move.name}(${move.type})!</h3>`
+  ?? `<h3>${pokemonAttacker.name}(${playerName}) atacou ${PokemonDefender.name} com ataque básico!</h3>`
+
+  console.log(typeof(content))
+
+  setElement(".hudMenu", content)
+  
+  setTimeout(() => {
+    loadOptions()
+  }, 2500)
 }
 
 function refreshHP(pokemon) {
@@ -153,6 +203,8 @@ function refreshHP(pokemon) {
   }
 }
 
+
+
 function physicalAttk(pokemon, enemy) {
   let stab = 1;
   let PokeType = pokemon.type;
@@ -161,7 +213,7 @@ function physicalAttk(pokemon, enemy) {
   let margin = Math.floor(Math.random() * 101);
   let critical = 1
   
-  if (Math.floor(Math.random() * 101 <= move.crit)) {
+  if (Math.floor(Math.random() * 101 <= pokemon.moves.crit)) {
     critical = 1.5
   }
   
@@ -169,10 +221,11 @@ function physicalAttk(pokemon, enemy) {
     stab = 1.5;
   }
   
-  damage = Math.floor(((((2 * 1 / 5 + 2) * pokemon.attk * 1) / enemy.defense / 50) + 2) * stab * attkTypeEfficiency * critical * (margin / 100));
-  enemy.hp -= Specialdamage
+  damage = Math.floor(((((2 * 1 / 5 + 2) * pokemon.attk * 1) / enemy.defense / 50) + 2) * stab * attkTypeEfficiency * critical * (margin / 100)) * 2;
+  enemy.hp -= damage
 
   refreshHP(enemy)
+  showMessage(pokemon, enemy, null)
 }
 
 function specialAbility(pokemon, enemy, move) {
@@ -194,11 +247,8 @@ function specialAbility(pokemon, enemy, move) {
   enemy.hp -= Specialdamage
   console.log(Specialdamage)
   refreshHP(enemy)
+  showMessage(pokemon, enemy, move)
 }
-
-// function useItem(playerPokemon, ashPokemon) {
-//
-// }
 
 function runAway() {
   var playerImg = document.getElementById("playerImg");

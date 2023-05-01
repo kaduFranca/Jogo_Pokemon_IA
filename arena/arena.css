@@ -103,3 +103,32 @@ html, body {
   display: inline;
   margin-left: 5px;
 }
+
+.hubModal img{
+  width: 35vw;
+}
+
+.hubModal {
+  position: absolute;
+  top: 62vh;
+  left: 40vw;
+  transform: scaleX(1.1);
+  transform: scaleY(0.9);
+}
+
+.hudMenu {
+  position: absolute;
+  top: 0;
+  left: 20%;
+  font-size: 4vh;
+}
+
+.hudMenu p{
+  margin-bottom: 5vh;
+}
+
+.hudMenu p:hover{
+  text-decoration: underline;
+  cursor: pointer;
+}
+
