@@ -1,3 +1,5 @@
+@import url('http://fonts.cdnfonts.com/css/superbly');
+
 html, body {
   height: 100%;
   width: 100%;
@@ -28,14 +30,17 @@ html, body {
 
 .interface {
   transform: scaleX(1.1);
-  transform: scaleY(0.8)
+  transform: scaleY(0.8);
+  width: 18vw;
+  height: 1vh;
 }
 
 .hud {
   position: absolute;
-  width: 30vw;
-  top: 89vh;
-  right: 30vw;
+  height: 37vh;
+  width: 32vw;
+  top: 85vh;
+  left: 40vw;
 }
 
 .info {
@@ -46,11 +51,47 @@ html, body {
 
 .player {
   position: absolute;
-  top: 0pt;
+  top: 0;
 }
 
 @keyframes runAwayAnimation {
   to {
     transform: translateX(-100%);
   }
+}
+
+.health-bar {
+  position: absolute;
+  top: 5.5vw;
+  left: 0.6em;
+  background-color: #ddd;
+  height: 3vh;
+  min-height: 20px;
+  width: 16vw;
+  border: 2.5px solid #383838;
+}
+
+.health-bar-inner {
+  background-color: #4CAF50;
+  height: 100%;
+  width: 100%;
+  transition: width 0.3s ease-in-out;
+}
+
+.pokemonName {
+  position: absolute;
+  top: 2vh;
+  left: 15px;
+  font-size: 24px;
+}
+
+.playerInfo {
+  position: absolute;
+  top: 300px;
+  width: 18vw;
+}
+
+.enemyInfo {
+  position: absolute;
+  width: 18vw;
 }

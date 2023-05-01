@@ -1,6 +1,6 @@
 let id = parseInt(localStorage.getItem("pokemonSelected")) ?? 1;
 let balanceados = [
-  17, 12, 25, 27, 39, 74, 35, 41, 52, 54, 56, 58, 63, 72, 60, 50, 84, 86, 88,
+  17, 12, 25, 27, 39, 74, 41, 52, 54, 56, 58, 63, 72, 60, 50, 84, 86, 88,
   109, 90, 98, 100, 129
 ];
 let random = balanceados[Math.floor(Math.random() * balanceados.length)];
@@ -118,6 +118,36 @@ function loadSprite() {
   
   console.log(playerPokemon);
   console.log(ashPokemon);
+
+  refreshModalInfo()
+}
+
+function setElement(selector, content) {
+var auxElement = document.querySelector(selector)
+auxElement.innerHTML = content
+}
+
+function refreshModalInfo() {
+  setElement("#enemyName", ashPokemon.name)
+  setElement("#playerName", playerPokemon.name)
+  let enemyHP = document.querySelector("#enemyHP")
+  enemyHP.id = `${ashPokemon.name}HP`
+  let playerHP = document.querySelector("#playerHP")
+  playerHP.id = `${playerPokemon.name}HP`
+  setElement(`#${enemyHP.id}`, ashPokemon.hp)
+  setElement(`#${playerHP.id}`, playerPokemon.hp)
+}
+
+function refreshHP(pokemon) {
+  let vidaAtual = pokemon.hp
+  let vidaTotal = pokemon.hp_base
+
+  if(vidaAtual != vidaTotal) {
+    let novaVida = (vidaAtual * 100) / vidaTotal
+    let hpDiv = document.querySelector(`#${pokemon.name}HP`)
+    hpDiv.innerHTML = vidaAtual;
+    hpDiv.style.width = novaVida + "%"
+  }
 }
 
 function physicalAttk(pokemon, enemy) {
@@ -138,6 +168,8 @@ function physicalAttk(pokemon, enemy) {
   
   damage = Math.floor(((((2 * 1 / 5 + 2) * pokemon.attk * 1) / enemy.defense / 50) + 2) * stab * attkTypeEfficiency * critical * (margin / 100));
   enemy.hp -= Specialdamage
+
+  refreshHP(enemy)
 }
 
 function specialAbility(pokemon, enemy, move) {
@@ -158,6 +190,7 @@ function specialAbility(pokemon, enemy, move) {
   Specialdamage = Math.floor(((((2 * 1 / 5 + 2) * pokemon.specialAttk * move.power) / enemy.specialDefense / 50) + 2) * stab * attkTypeEfficiency * critical * (margin / 100));
   enemy.hp -= Specialdamage
   console.log(Specialdamage)
+  refreshHP(enemy)
 }
 
 // function useItem(playerPokemon, ashPokemon) {
