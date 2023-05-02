@@ -7,7 +7,7 @@ let balanceados = [
 let random = balanceados[Math.floor(Math.random() * balanceados.length)];
 
 const getPlayerPokemonUrl = `https://pokeapi.co/api/v2/pokemon/${id}`;
-const getAshPokemonUrl = `https://pokeapi.co/api/v2/pokemon/${random}`;
+const getAshPokemonUrl = `https://pokeapi.co/api/v2/pokemon/56`;
 
 const frontPlayerPokemonUrl = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`;
 const backPlayerPokemonUrl = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/${id}.png`;
@@ -261,7 +261,380 @@ function runAway() {
   });
 }
 
-function botTurn(playerPokemon, ashPokemon) {}
+function botTurn(pokemon, enemy) {
+  const weaknessTable = {
+    normal: {
+      grass: 1.0,
+      water: 1.0,
+      normal: 1.0,
+      psychic: 1.0,
+      fire: 1.0,
+      bug: 1.0,
+      ground: 1.0,
+      eletric: 1.0,
+      flying: 1.0,
+      rock: 0.5,
+      dark: 1.0,
+      ice: 1.0,
+      poison: 1.0,
+      steel: 0.5,
+      fighting: 1.0,
+      fairy: 1.0,
+      ghost: 0.0
+    },
+    fighting: {
+      grass: 1.0,
+      water: 1.0,
+      normal: 2.0,
+      psychic: 0.5,
+      fire: 1.0,
+      bug: 0.5,
+      ground: 1.0,
+      eletric: 1.0,
+      flying: 0.5,
+      rock: 2.0,
+      dark: 2.0,
+      ice: 2.0,
+      poison: 0.5,
+      steel: 2.0,
+      fighting: 1.0,
+      fairy: 0.5,
+      ghost: 0.0
+    },
+    flying: {
+      Grass: 2.0,
+      Water: 1.0,
+      Normal: 1.0,
+      Psychic: 1.0,
+      Fire: 1.0,
+      Bug: 2.0,
+      Ground: 1.0,
+      eletric: 0.5,
+      Flying: 1.0,
+      Rock: 0.5,
+      Dark: 1.0,
+      Ice: 1.0,
+      Poison: 1.0,
+      Steel: 0.5,
+      Fighting: 2.0,
+      Fairy: 1.0,
+      Ghost: 1.0
+    },
+    poison: {
+      Grass: 2.0,
+      Water: 1.0,
+      Normal: 1.0,
+      Psychic: 1.0,
+      Fire: 1.0,
+      Bug: 1.0,
+      Ground: 0.5,
+      eletric: 1.0,
+      Flying: 1.0,
+      Rock: 0.5,
+      Dark: 1.0,
+      Ice: 1.0,
+      Poison: 0.5,
+      Steel: 0.0,
+      Fighting: 1.0,
+      Fairy: 2.0,
+      Ghost: 0.5
+    },
+    ground: {
+      Grass: 0.5,
+      Water: 1.0,
+      Normal: 1.0,
+      Psychic: 1.0,
+      Fire: 2.0,
+      Bug: 0.5,
+      Ground: 1.0,
+      eletric: 2.0,
+      Flying: 0.0,
+      Rock: 2.0,
+      Dark: 1.0,
+      Ice: 1.0,
+      Poison: 2.0,
+      Steel: 2.0,
+      Fighting: 1.0,
+      Fairy: 1.0,
+      Ghost: 1.0
+    },
+    rock: {
+      Grass: 1.0,
+      Water: 1.0,
+      Normal: 1.0,
+      Psychic: 1.0,
+      Fire: 2.0,
+      Bug: 2.0,
+      Ground: 0.5,
+      eletric: 1.0,
+      Flying: 2.0,
+      Rock: 1.0,
+      Dark: 1.0,
+      Ice: 2.0,
+      Poison: 1.0,
+      Steel: 0.5,
+      Fighting: 0.5,
+      Fairy: 1.0,
+      Ghost: 1.0
+    },
+    bug: {
+      Grass: 2.0,
+      Water: 1.0,
+      Normal: 1.0,
+      Psychic: 2.0,
+      Fire: 0.5,
+      Bug: 1.0,
+      Ground: 1.0,
+      eletric: 1.0,
+      Flying: 0.5,
+      Rock: 1.0,
+      Dark: 2.0,
+      Ice: 1.0,
+      Poison: 0.5,
+      Steel: 0.5,
+      Fighting: 0.5,
+      Fairy: 0.5,
+      Ghost: 0.5
+    },
+    ghost: {
+      Grass: 1.0,
+      Water: 1.0,
+      Normal: 0.0,
+      Psychic: 2.0,
+      Fire: 1.0,
+      Bug: 1.0,
+      Ground: 1.0,
+      eletric: 1.0,
+      Flying: 1.0,
+      Rock: 1.0,
+      Dark: 0.5,
+      Ice: 1.0,
+      Poison: 1.0,
+      Steel: 1.0,
+      Fighting: 1.0,
+      Fairy: 1.0,
+      Ghost: 2.0
+    },
+    steel: {
+      Grass: 1.0,
+      Water: 0.5,
+      Normal: 1.0,
+      Psychic: 1.0,
+      Fire: 0.5,
+      Bug: 1.0,
+      Ground: 1.0,
+      eletric: 0.5,
+      Flying: 1.0,
+      Rock: 2.0,
+      Dark: 1.0,
+      Ice: 2.0,
+      Poison: 1.0,
+      Steel: 0.5,
+      Fighting: 1.0,
+      Fairy: 2.0,
+      Ghost: 1.0
+    },
+    fire: {
+      grass: 2.0,
+      water: 0.5,
+      normal: 1.0,
+      psychic: 1.0,
+      fire: 0.5,
+      bug: 2.0,
+      ground: 1.0,
+      eletric: 1.0,
+      flying: 1.0,
+      rock: 0.5,
+      dark: 1.0,
+      ice: 2.0,
+      poison: 1.0,
+      steel: 2.0,
+      dighting: 1.0,
+      dairy: 1.0,
+      ghost: 1.0
+    },
+    water: {
+      Grass: 0.5,
+      Water: 0.5,
+      Normal: 1.0,
+      Psychic: 1.0,
+      Fire: 2.0,
+      Bug: 1.0,
+      Ground: 2.0,
+      eletric: 1.0,
+      Flying: 1.0,
+      Rock: 2.0,
+      Dark: 1.0,
+      Ice: 1.0,
+      Poison: 1.0,
+      Steel: 1.0,
+      Fighting: 1.0,
+      Fairy: 1.0,
+      Ghost: 1.0
+    },
+    grass: {
+      Grass: 0.5,
+      Water: 2.0,
+      Normal: 1.0,
+      Psychic: 1.0,
+      Fire: 0.5,
+      Bug: 0.5,
+      Ground: 2.0,
+      eletric: 1.0,
+      Flying: 0.5,
+      Rock: 2.0,
+      Dark: 1.0,
+      Ice: 1.0,
+      Poison: 0.5,
+      Steel: 0.5,
+      Fighting: 1.0,
+      Fairy: 1.0,
+      Ghost: 1.0
+    },
+    eletric: {
+      Grass: 0.5,
+      Water: 2.0,
+      Normal: 1.0,
+      Psychic: 1.0,
+      Fire: 1.0,
+      Bug: 1.0,
+      Ground: 0.0,
+      eletric: 0.5,
+      Flying: 2.0,
+      Rock: 1.0,
+      Dark: 1.0,
+      Ice: 1.0,
+      Poison: 1.0,
+      Steel: 1.0,
+      Fighting: 1.0,
+      Fairy: 1.0,
+      Ghost: 1.0
+    },
+    psychic: {
+      Grass: 1.0,
+      Water: 1.0,
+      Normal: 1.0,
+      Psychic: 0.5,
+      Fire: 1.0,
+      Bug: 1.0,
+      Ground: 1.0,
+      eletric: 1.0,
+      Flying: 1.0,
+      Rock: 1.0,
+      Dark: 0.0,
+      Ice: 1.0,
+      Poison: 2.0,
+      Steel: 0.5,
+      Fighting: 2.0,
+      Fairy: 1.0,
+      Ghost: 1.0
+    },
+    ice: {
+      Grass: 2.0,
+      Water: 0.5,
+      Normal: 1.0,
+      Psychic: 1.0,
+      Fire: 0.5,
+      Bug: 1.0,
+      Ground: 2.0,
+      eletric: 1.0,
+      Flying: 2.0,
+      Rock: 1.0,
+      Dark: 1.0,
+      Ice: 0.5,
+      Poison: 1.0,
+      Steel: 0.5,
+      Fighting: 1.0,
+      Fairy: 1.0,
+      Ghost: 1.0
+    },
+    dragon: {
+      Grass: 1.0,
+      Water: 1.0,
+      Normal: 1.0,
+      Psychic: 1.0,
+      Fire: 1.0,
+      Bug: 1.0,
+      Ground: 1.0,
+      eletric: 1.0,
+      Flying: 1.0,
+      Rock: 1.0,
+      Dark: 1.0,
+      Ice: 1.0,
+      Poison: 1.0,
+      Steel: 0.5,
+      Fighting: 1.0,
+      Fairy: 0.0,
+      Ghost: 1.0
+    },
+    dark: {
+      Grass: 1.0,
+      Water: 1.0,
+      Normal: 1.0,
+      Psychic: 2.0,
+      Fire: 1.0,
+      Bug: 1.0,
+      Ground: 1.0,
+      eletric: 1.0,
+      Flying: 1.0,
+      Rock: 1.0,
+      Dark: 0.5,
+      Ice: 1.0,
+      Poison: 1.0,
+      Steel: 1.0,
+      Fighting: 0.5,
+      Fairy: 0.5,
+      Ghost: 2.0
+    },
+    fairy: {
+      Grass: 1.0,
+      Water: 1.0,
+      Normal: 1.0,
+      Psychic: 1.0,
+      Fire: 1.0,
+      Bug: 1.0,
+      Ground: 1.0,
+      eletric: 1.0,
+      Flying: 1.0,
+      Rock: 1.0,
+      Dark: 2.0,
+      Ice: 1.0,
+      Poison: 0.5,
+      Steel: 0.5,
+      Fighting: 2.0,
+      Fairy: 1.0,
+      Ghost: 1.0
+    }
+  }
+  raerae = []
+  pokemon.moves.map( move => {
+    console.log(move.type)
+    console.log(enemy.type)
+    betterchoise = weaknessTable[move.type][enemy.type];
+    console.log(betterchoise)
+    raerae.push(betterchoise)
+  });
+  const better = Math.max(...raerae);
+  const bettermove = raerae.indexOf(better);
+  let powerfull_move = {power: 0}
+
+  console.log(raerae)
+  console.log(better)
+  console.log(bettermove)
+  
+
+  if(bettermove.length > 1){
+    bettermove.forEach(function(moveindex){
+      if(powerfull_move.power < pokemon.move[moveindex].power){
+        powerfull_move = pokemon.move[moveindex]
+      }
+    });
+    console.log(powerfull_move)
+    specialAbility(pokemon, enemy, powerfull_move)
+  }else{
+    specialAbility(pokemon, enemy, pokemon.move[bettermove])
+  }
+}
 
 function sameType(pokemon, enemy) {
   pokemon.type == enemy.type;
