@@ -7,7 +7,7 @@ let balanceados = [
 let random = balanceados[Math.floor(Math.random() * balanceados.length)];
 
 const getPlayerPokemonUrl = `https://pokeapi.co/api/v2/pokemon/${id}`;
-const getAshPokemonUrl = `https://pokeapi.co/api/v2/pokemon/56`;
+const getAshPokemonUrl = `https://pokeapi.co/api/v2/pokemon/${random}`;
 
 const frontPlayerPokemonUrl = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`;
 const backPlayerPokemonUrl = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/${id}.png`;
@@ -221,7 +221,7 @@ function physicalAttk(pokemon, enemy) {
     stab = 1.5;
   }
   
-  damage = Math.floor(((((2 * 1 / 5 + 2) * pokemon.attk * 1) / enemy.defense / 50) + 2) * stab * attkTypeEfficiency * critical * (margin / 100)) * 2;
+  damage = Math.floor(((((2 * 1 / 5 + 2) * pokemon.attk * 1) / enemy.defense / 50) + 2) * stab * attkTypeEfficiency * critical * (margin / 100) * 2);
   enemy.hp -= damage
 
   refreshHP(enemy)
@@ -243,7 +243,7 @@ function specialAbility(pokemon, enemy, move) {
     stab = 1.5;
   }
   
-  Specialdamage = Math.floor(((((2 * 1 / 5 + 2) * pokemon.specialAttk * move.power) / enemy.specialDefense / 50) + 2) * stab * attkTypeEfficiency * critical * (margin / 100));
+  Specialdamage = Math.floor(((((2 * 1 / 5 + 2) * pokemon.specialAttk * move.power) / enemy.specialDefense / 50) + 2) * stab * attkTypeEfficiency * critical * (margin / 100) * 2);
   enemy.hp -= Specialdamage
   console.log(Specialdamage)
   refreshHP(enemy)
@@ -608,28 +608,25 @@ function botTurn(pokemon, enemy) {
   }
   raerae = []
   pokemon.moves.map( move => {
-    console.log(move.type)
-    console.log(enemy.type)
     betterchoise = weaknessTable[move.type][enemy.type];
-    console.log(betterchoise)
     raerae.push(betterchoise)
   });
   const better = Math.max(...raerae);
-  const bettermove = raerae.indexOf(better);
+  const bettermove = raerae.reduce((acumulador, elemento, index) => {
+    if (elemento === better) {
+      acumulador.push(index);
+    }
+    return acumulador;
+  }, []);
   let powerfull_move = {power: 0}
-
-  console.log(raerae)
-  console.log(better)
-  console.log(bettermove)
   
 
   if(bettermove.length > 1){
     bettermove.forEach(function(moveindex){
-      if(powerfull_move.power < pokemon.move[moveindex].power){
-        powerfull_move = pokemon.move[moveindex]
+      if(powerfull_move.power < pokemon.moves[moveindex].power){
+        powerfull_move = pokemon.moves[moveindex]
       }
     });
-    console.log(powerfull_move)
     specialAbility(pokemon, enemy, powerfull_move)
   }else{
     specialAbility(pokemon, enemy, pokemon.move[bettermove])
