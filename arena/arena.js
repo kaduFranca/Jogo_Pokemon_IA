@@ -158,9 +158,18 @@ function refreshModalInfo() {
 function loadOptions() {
   if(playerTurn == true) {
     setElement(".hudMenu",
-    `<p onclick="choseOption('physicalAttk')" id="physicalAttk">Ataque normal</p>
-    <p onclick="choseOption('specialAbility')" id="specialAbility">Ataque Especial</p>
-    <p onclick="choseOption('runAway')" id="runAway">Fugir</p>`)
+    `<img class="imgHover5" src="../img/icone_hover.png"/>
+    <p onclick="choseOption('physicalAttk')" id="physicalAttk"
+    onmouseover="showComponent('imgHover5')"
+    onmouseout="showComponent('imgHover5')">Ataque normal</p>
+    <img class="imgHover6" src="../img/icone_hover.png"/>
+    <p onclick="choseOption('specialAbility')" id="specialAbility"
+    onmouseover="showComponent('imgHover6')"
+  onmouseout="showComponent('imgHover6')">Ataque Especial</p>
+    <img class="imgHover7" src="../img/icone_hover.png"/>
+    <p onclick="choseOption('runAway')" id="runAway"
+    onmouseover="showComponent('imgHover7')"
+  onmouseout="showComponent('imgHover7')">Fugir</p>`)
   
     var hudMenu = document.querySelector(".hudMenu")
     hudMenu.style.fontSize = "4vh"
@@ -183,10 +192,22 @@ function choseOption(id) {
 
 function showMoves(pokemon) {
   setElement(".hudMenu",
-  `<p onclick="specialAbility(playerPokemon, ashPokemon, playerPokemon.moves[0])">${pokemon.moves[0].name} (${pokemon.moves[0].type})</p>
-  <p onclick="specialAbility(playerPokemon, ashPokemon, playerPokemon.moves[1])">${pokemon.moves[1].name} (${pokemon.moves[1].type})</p>
-  <p onclick="specialAbility(playerPokemon, ashPokemon, playerPokemon.moves[2])">${pokemon.moves[2].name} (${pokemon.moves[2].type})</p>
-  <p onclick="specialAbility(playerPokemon, ashPokemon, playerPokemon.moves[3])">${pokemon.moves[3].name} (${pokemon.moves[3].type})</p>`
+  `<img class="imgHover1" src="../img/icone_hover.png"/>
+  <p onclick="specialAbility(playerPokemon, ashPokemon, playerPokemon.moves[0])"
+  onmouseover="showComponent('imgHover1')"
+  onmouseout="showComponent('imgHover1')">${pokemon.moves[0].name} (${pokemon.moves[0].type})</p>
+  <img class="imgHover2" src="../img/icone_hover.png"/>
+  <p onclick="specialAbility(playerPokemon, ashPokemon, playerPokemon.moves[1])" 
+  onmouseover="showComponent('imgHover2')"
+  onmouseout="showComponent('imgHover2')">${pokemon.moves[1].name} (${pokemon.moves[1].type})</p>
+  <img class="imgHover3" src="../img/icone_hover.png"/>
+  <p onclick="specialAbility(playerPokemon, ashPokemon, playerPokemon.moves[2])" 
+  onmouseover="showComponent('imgHover3')"
+  onmouseout="showComponent('imgHover3')">${pokemon.moves[2].name} (${pokemon.moves[2].type})</p>
+  <img class="imgHover4" src="../img/icone_hover.png"/>
+  <p onclick="specialAbility(playerPokemon, ashPokemon, playerPokemon.moves[3])"
+  onmouseover="showComponent('imgHover4')"
+  onmouseout="showComponent('imgHover4')">${pokemon.moves[3].name} (${pokemon.moves[3].type})</p>`
   )
 
   var hudMenu = document.querySelector(".hudMenu")
@@ -223,9 +244,9 @@ function showMsg(pokemon, enemy, move, damage) {
 
   
   hudMenu = `
-  <img src="${pokemon.splashImg}" class="atacker">
-  <img src="../img/espada.png" class="espada">
-  <img src="${enemy.splashImg}" class="defender">
+  <img src="${pokemon.splashImg}" class="imgHud atacker">
+  <img src="../img/espada.png" class="imgHud espada">
+  <img src="${enemy.splashImg}" class="imgHud defender">
   `
 
   setElement(".hudMenu", hudMenu)
@@ -724,4 +745,14 @@ function weaknessResistence(attackerType, defenderType) {
       }
     });
   return attkCoefficient !== undefined ? attkCoefficient : 1;
+}
+
+function showComponent(selector) {
+  var element = document.querySelector(`.${selector}`);
+  console.log(element)
+  if (element.classList.contains("show")) {
+    element.classList.remove("show");
+  } else {
+    element.classList.add("show");
+  }
 }

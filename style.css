@@ -173,3 +173,70 @@ align-items: center;
 
 
 
+
+
+.dialogo {
+  background-position: center center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  z-index: 11111111;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.dialogo:target {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.imgfake {
+  display: inline-block;
+  position: relative;
+  margin-left: 0%;
+  margin-top: 10%;
+  display: flex;
+  justify-content: center;
+}
+
+.imgfake p {
+  position: absolute;
+  top: 40px;
+}
+
+.imagemmodal {
+  background-position: center center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* display: block; */
+  float: center;
+  width: 90%;
+}
+
+.fechar {
+  color: #ff0000;
+  position: absolute;
+  text-align: center;
+  width: 25px;
+  text-decoration: none;
+  font-weight: bold;
+  right: 28px;
+  top: 10px;
+}
+
+#linkrepositorio{
+  text-decoration:none;
+  position: absolute;
+  top: 50px;
+}
+
+#textocreditos{
+  user-select: none;
+  -webkit-user-select: none;
+}

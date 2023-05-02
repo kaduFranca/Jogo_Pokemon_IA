@@ -128,11 +128,10 @@ html, body {
 }
 
 .hudMenu p:hover{
-  text-decoration: underline;
   cursor: pointer;
 }
 
-.hudMenu img {
+.hudMenu .imgHud {
   position: relative;
   top: 10vh;
   right: 2.5vw;
@@ -192,4 +191,64 @@ html, body {
   margin: 0 auto;
   transform: translateY(-50%);
   font-size: 3vh;
+}
+
+.imgHover1 {
+  position: absolute;  
+  top: -33vh;
+  left: -19vw;
+  transform: scale(0.08);
+  visibility: hidden;
+}
+
+.imgHover2 {
+  position: absolute;  
+  top: -24vh;
+  left: -19vw;
+  transform: scale(0.08);
+  visibility: hidden;
+}
+
+.imgHover3 {
+  position: absolute;  
+  top: -15vh;
+  left: -19vw;
+  transform: scale(0.08);
+  visibility: hidden;
+}
+
+.imgHover4 {
+  position: absolute;  
+  top: -6vh;
+  left: -19vw;
+  transform: scale(0.08);
+  visibility: hidden;
+}
+
+.imgHover5 {
+  position: absolute;  
+  top: -31.5vh;
+  left: -19vw;
+  transform: scale(0.08);
+  visibility: hidden;
+}
+
+.imgHover6 {
+  position: absolute;  
+  top: -21vh;
+  left: -19vw;
+  transform: scale(0.08);
+  visibility: hidden;
+}
+
+.imgHover7 {
+  position: absolute;  
+  top: -10.5vh;
+  left: -19vw;
+  transform: scale(0.08);
+  visibility: hidden;
+}
+
+.show {
+  visibility: visible;
 }
