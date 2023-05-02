@@ -1,9 +1,10 @@
 let id = parseInt(localStorage.getItem("pokemonSelected")) ?? 1;
 let playerName = localStorage.getItem("playerName");
 let balanceados = [
-  17, 12, 25, 27, 39, 74, 41, 52, 54, 56, 58, 63, 72, 60, 50, 84, 86, 88,
+  17, 12, 25, 27, 39, 74, 41, 52, 54, 56, 58, 63, 72, 60, 84, 86, 88,
   109, 90, 98, 100, 129
 ];
+var playerTurn
 let random = balanceados[Math.floor(Math.random() * balanceados.length)];
 
 const getPlayerPokemonUrl = `https://pokeapi.co/api/v2/pokemon/${id}`;
@@ -12,10 +13,12 @@ const getAshPokemonUrl = `https://pokeapi.co/api/v2/pokemon/${random}`;
 const frontPlayerPokemonUrl = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`;
 const backPlayerPokemonUrl = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/${id}.png`;
 const frontPlayerGifPokemonUrl = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/${id}.gif`;
+const splashPlayerUrl = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${id}.png`
 const PlayerGifPokemonUrl = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/back/${id}.gif`;
 
 const frontAshPokemonUrl = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${random}.png`;
 const backAshPokemonUrl = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/${random}.png`;
+const splashAshUrl = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${random}.png`
 const AshGifPokemonUrl = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/${random}.gif`;
 
 playerPokemon = {};
@@ -47,6 +50,7 @@ async function getPlayerPokemon() {
         speed: data.stats[5].base_stat,
         type: data.types[0].type.name,
         sprite: backPlayerPokemonUrl,
+        splashImg: splashPlayerUrl,
         moves: getMoves([
           data.moves[0].move.url,
           data.moves[1].move.url,
@@ -73,6 +77,7 @@ async function getAshPokemon() {
         speed: data.stats[5].base_stat,
         type: data.types[0].type.name,
         sprite: frontAshPokemonUrl,
+        splashImg: splashAshUrl,
         moves: getMoves([
           data.moves[0].move.url,
           data.moves[1].move.url,
@@ -120,7 +125,16 @@ function loadSprite() {
   console.log(playerPokemon);
   console.log(ashPokemon);
 
+  setInitialTurn()
   refreshModalInfo()
+}
+
+function setInitialTurn() {
+  if (playerPokemon.speed > ashPokemon.speed) {
+    playerTurn = true;
+  } else {
+    playerTurn = false;
+  }
 }
 
 function setElement(selector, content) {
@@ -142,19 +156,23 @@ function refreshModalInfo() {
 }
 
 function loadOptions() {
-  setElement(".hudMenu",
-  `<p onclick="choseOption('physicalAttk')" id="physicalAttk">Ataque normal</p>
-  <p onclick="choseOption('specialAbility')" id="specialAbility">Ataque Especial</p>
-  <p onclick="choseOption('runAway')" id="runAway">Fugir</p>`)
-
-  var hudMenu = document.querySelector(".hudMenu")
-  hudMenu.style.fontSize = "4vh"
+  if(playerTurn == true) {
+    setElement(".hudMenu",
+    `<p onclick="choseOption('physicalAttk')" id="physicalAttk">Ataque normal</p>
+    <p onclick="choseOption('specialAbility')" id="specialAbility">Ataque Especial</p>
+    <p onclick="choseOption('runAway')" id="runAway">Fugir</p>`)
+  
+    var hudMenu = document.querySelector(".hudMenu")
+    hudMenu.style.fontSize = "4vh"
+  } else {
+    botTurn(ashPokemon, playerPokemon)
+  }
+  
 }
 
 
 function choseOption(id) {
   if(id === "physicalAttk") {
-    console.log("UEPA")
     physicalAttk(playerPokemon, ashPokemon)
   } else if(id === "specialAbility") {
     showMoves(playerPokemon)
@@ -175,24 +193,52 @@ function showMoves(pokemon) {
   hudMenu.style.fontSize = "3vh"
 }
 
-function showMessage(pokemonAttacker, PokemonDefender, move) {
-  var content = `<h3>${pokemonAttacker.name}(${playerName}) atacou ${PokemonDefender.name} com ${move.name}(${move.type})!</h3>`
-  ?? `<h3>${pokemonAttacker.name}(${playerName}) atacou ${PokemonDefender.name} com ataque básico!</h3>`
+function endAtack(pokemon, enemy, move, damage) {
 
-  console.log(typeof(content))
+  showMsg(pokemon, enemy, move, damage)
 
-  setElement(".hudMenu", content)
+  if (playerTurn == false) {
+    playerTurn = true
+  } else {
+    playerTurn = false
+  }
   
   setTimeout(() => {
     loadOptions()
   }, 2500)
 }
 
+function showMsg(pokemon, enemy, move, damage) {
+  nameAtacker = playerTurn == true ? playerName : 'bot'
+  let msgLog
+  let hudMenu
+  if (damage == 0) {
+    msgLog = `<h3>${pokemon.name}(${nameAtacker}) <span style="color: red;">errou</span> o ataque!</h3>`
+  }else if (move !== null) {
+    msgLog = `<h3>${pokemon.name}(${nameAtacker}) <span style="color: blue;">atacou</span> ${enemy.name} com ${move.name}(${move.type})<span style="color: red;">[-${damage}]</span></h3>`
+  } else {
+    msgLog = `<h3>${pokemon.name}(${nameAtacker}) <span style="color: blue;">atacou</span> ${enemy.name} com ataque básico! <span style="color: red;">[-${damage}]</span></h3>`
+  }
+  setElement(".msgLog", msgLog)
+
+  
+  hudMenu = `
+  <img src="${pokemon.splashImg}" class="atacker">
+  <img src="../img/espada.png" class="espada">
+  <img src="${enemy.splashImg}" class="defender">
+  `
+
+  setElement(".hudMenu", hudMenu)
+
+}
+
 function refreshHP(pokemon) {
   let vidaAtual = pokemon.hp
   let vidaTotal = pokemon.hp_base
 
-  if(vidaAtual != vidaTotal) {
+  if (vidaAtual <= 0) {
+    endGame(pokemon)
+  } else if(vidaAtual != vidaTotal) {
     let novaVida = (vidaAtual * 100) / vidaTotal
     let hpDiv = document.querySelector(`#${pokemon.name}HP`)
     hpDiv.innerHTML = vidaAtual;
@@ -202,8 +248,6 @@ function refreshHP(pokemon) {
     }
   }
 }
-
-
 
 function physicalAttk(pokemon, enemy) {
   let stab = 1;
@@ -223,9 +267,9 @@ function physicalAttk(pokemon, enemy) {
   
   damage = Math.floor(((((2 * 1 / 5 + 2) * pokemon.attk * 1) / enemy.defense / 50) + 2) * stab * attkTypeEfficiency * critical * (margin / 100) * 2);
   enemy.hp -= damage
-
+  console.log(pokemon.name + " deu " + damage + " de dano")
   refreshHP(enemy)
-  showMessage(pokemon, enemy, null)
+  endAtack(pokemon, enemy, null, damage)
 }
 
 function specialAbility(pokemon, enemy, move) {
@@ -243,11 +287,11 @@ function specialAbility(pokemon, enemy, move) {
     stab = 1.5;
   }
   
-  Specialdamage = Math.floor(((((2 * 1 / 5 + 2) * pokemon.specialAttk * move.power) / enemy.specialDefense / 50) + 2) * stab * attkTypeEfficiency * critical * (margin / 100) * 2);
+  Specialdamage = Math.floor(((((2 * 1 / 5 + 2) * pokemon.specialAttk * move.power) / enemy.specialDefense / 50) + 2) * stab * attkTypeEfficiency * critical * (margin / 98) * 2);
   enemy.hp -= Specialdamage
-  console.log(Specialdamage)
+  console.log(pokemon.name + " deu " + Specialdamage + " de dano")
   refreshHP(enemy)
-  showMessage(pokemon, enemy, move)
+  endAtack(pokemon, enemy, move, Specialdamage)
 }
 
 function runAway() {
@@ -261,7 +305,25 @@ function runAway() {
   });
 }
 
+function endGame(pokemon) {
+  document.querySelector(".hubModal").remove()
+  document.querySelector(".modal-background").classList.add("show")
+  if (playerTurn == true) {
+    setElement(".endGame", `
+    <h2>Você Ganhou!</h2>
+    <p>${pokemon.name} foi derrotado!</p>
+    `)
+  } else {
+    setElement(".endGame", `
+    <h2>Você Perdeu :(</h2>
+    <p>Seu ${pokemon.name} foi derrotado!</p>
+    `)
+  }
+}
+
 function botTurn(pokemon, enemy) {
+  console.log("passei")
+
   const weaknessTable = {
     normal: {
       grass: 1.0,
@@ -620,7 +682,6 @@ function botTurn(pokemon, enemy) {
   }, []);
   let powerfull_move = {power: 0}
   
-
   if(bettermove.length > 1){
     bettermove.forEach(function(moveindex){
       if(powerfull_move.power < pokemon.moves[moveindex].power){
@@ -628,8 +689,10 @@ function botTurn(pokemon, enemy) {
       }
     });
     specialAbility(pokemon, enemy, powerfull_move)
-  }else{
+  }else if (bettermove.length != 0){
     specialAbility(pokemon, enemy, pokemon.move[bettermove])
+  } else {
+    physicalAttk(pokemon, enemy)
   }
 }
 
