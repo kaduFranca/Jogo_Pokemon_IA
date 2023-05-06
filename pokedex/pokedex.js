@@ -3,9 +3,13 @@ const getPokemonUrl = id => `https://pokeapi.co/api/v2/pokemon/${id}`
 const fetchPokemon = () => {
    
     const listaPokemons = []
-
-   for(let i = 1; i <= 150; i++) {
-    listaPokemons.push(fetch(getPokemonUrl(i))
+    var lista = [60, 1, 4, 7, 58, 100, 86, 24, 13, 10, 16,19,21,25,27,29,32,35,39,41,74,46,48,50,52,54,56,60,63,66,69,72,92].sort() 
+    lista.sort()
+    
+   for(let i = 0; i <= lista.length -1; i++) {
+    let aux = lista[i]
+    console.log(aux)
+    listaPokemons.push(fetch(`https://pokeapi.co/api/v2/pokemon/${aux}`)
     .then(response => response.json()))
    
    }

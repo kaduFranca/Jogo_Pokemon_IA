@@ -1,9 +1,11 @@
 let id = parseInt(localStorage.getItem("pokemonSelected")) ?? 1;
 let playerName = localStorage.getItem("playerName");
-let balanceados = [
+let balanceadosAntigo = [
   17, 12, 25, 27, 39, 74, 41, 52, 54, 56, 58, 63, 72, 60, 84, 86, 88,
   109, 90, 98, 100, 129
 ];
+
+let balanceados = [60, 1, 4, 7, 58, 100, 86, 24, 13, 10, 16,19,21,25,27,29,32,35,39,41,74,46,48,50,52,54,56,60,63,66,69,72,92]
 var playerTurn
 let random = balanceados[Math.floor(Math.random() * balanceados.length)];
 
@@ -310,7 +312,6 @@ function specialAbility(pokemon, enemy, move) {
   
   Specialdamage = Math.floor(((((2 * 1 / 5 + 2) * pokemon.specialAttk * move.power) / enemy.specialDefense / 50) + 2) * stab * attkTypeEfficiency * critical * (margin / 98) * 2);
   enemy.hp -= Specialdamage
-  console.log(pokemon.name + " deu " + Specialdamage + " de dano")
   refreshHP(enemy)
   endAtack(pokemon, enemy, move, Specialdamage)
 }
@@ -711,7 +712,7 @@ function botTurn(pokemon, enemy) {
     });
     specialAbility(pokemon, enemy, powerfull_move)
   }else if (bettermove.length != 0){
-    specialAbility(pokemon, enemy, pokemon.move[bettermove])
+    specialAbility(pokemon, enemy, pokemon.moves[bettermove])
   } else {
     physicalAttk(pokemon, enemy)
   }
