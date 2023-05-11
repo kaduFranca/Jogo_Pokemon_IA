@@ -48,7 +48,7 @@ function chosePokemon(pokemonId) {
 
   if (!pokemonBag.includes(pokemonId)) {
     pokemonBag.push(pokemonId);
-    localStorage.setItem("pokemonBag", pokemonBag);
+    localStorage.setItem("pokemonBag", JSON.stringify(pokemonBag));
     localStorage.setItem("pokemonSelected", pokemonId)
 
     for (let i = 0; i < initialPokemons.length; i++) {
@@ -74,10 +74,6 @@ function afterChose() {
   setInterval(() => {
     window.location.replace("../arena/arena.html");
   }, 4500);
-}
-
-function getPokemonBag() {
-  return pokemonBag;
 }
 
 function changeNaneMenu() {
